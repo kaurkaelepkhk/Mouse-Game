@@ -15,8 +15,8 @@ function calculateSize() {
 // Calculate X and Y axis of the circle
 
 function calculatePos() {
-    const randomPosX = Math.floor((Math.random() * 700));
-    const randomPosY = Math.floor((Math.random() * 700));
+    const randomPosX = Math.floor((Math.random() * 1780));
+    const randomPosY = Math.floor((Math.random() * 940));
     return [randomPosX, randomPosY];
 };
 
@@ -67,3 +67,5 @@ const addScore = function () {
 circle.addEventListener("click", addScore);
 
 circleFunc();
+
+
