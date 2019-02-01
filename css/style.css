@@ -10,7 +10,7 @@ html, body {
 #circle {
     height: 25px;
     width: 25px;
-    background-color: #FFF;
+    background-color: red;
     border-radius: 50%;
     display: inline-block;
     position: absolute;
