@@ -1,13 +1,22 @@
 const circle = document.querySelector('#circle');
 const ring = document.querySelector('.ringring');
 const score = document.querySelector('#score');
-const introtext = document.getElementById('introtext');
+const gamemodeInfo = document.querySelector('.gamemodeinfo');
+const gamemode = document.querySelector('.gamemode');
 const freeroam = document.querySelector('#freeroam');
 const reaction = document.querySelector('#reaction');
 const timer = document.querySelector('#timer');
 const timerDisplay = document.getElementById('TimeDisplay');
+const endGame = document.getElementById('endGame');
 let scoreCount = 0;
 
+// MEDIA QUERIES FOR RESPONSIVE POSITIONING (1200, 992, 768, 576)
+const largeScreens = window.matchMedia("(min-width: 1200px)");
+const mediumScreens = window.matchMedia("(min-width: 992px)");
+const smallScreens = window.matchMedia("(min-width: 768px)");
+const extraSmallScreens = window.matchMedia("(min-width: 576px)");
+
+//
 /*
 FREEROAM GAMEMODE - how many points you can get, no timer will be set, the player can play as long as he wants, he can set the speed of the circle and the mode of the circle
 REACTION GAMEMODE - how fast can you flick to the circle and click it. A reaction timer will be shown on every circle click and an average reaction time will be drawn
@@ -24,12 +33,27 @@ function calculateSize() {
     return randomSize;
 }
 
-// Calculate X and Y axis of the circle
+// Calculate X and Y axis of the circle (max - min) + min
 
 function calculatePos() {
-    const randomPosX = Math.floor((Math.random() * 100));
-    const randomPosY = Math.floor((Math.random() * 100));
-    return [randomPosX, randomPosY];
+    if (extraSmallScreens.matches) {
+        const randomPosX = Math.floor(Math.random() * (576 - 320)) + 320;
+        const randomPosY = Math.floor(Math.random() * (576 - 320)) + 320;
+        return [randomPosX, randomPosY];
+    } else if (smallScreens.matches) {
+        const randomPosX = Math.floor(Math.random() * (768 - 576)) + 576;
+        const randomPosY = Math.floor(Math.random() * (768 - 576)) + 576;
+        return [randomPosX, randomPosY];
+    } else if (mediumScreens.matches) {
+        const randomPosX = Math.floor(Math.random() * (992 - 768)) + 768;
+        const randomPosY = Math.floor(Math.random() * (992 - 768)) + 768;
+        return [randomPosX, randomPosY];
+    } else {
+        const randomPosX = Math.floor(Math.random() * (1200 - 992)) + 992;
+        const randomPosY = Math.floor(Math.random() * (1200 - 992)) + 992;
+        return [randomPosX, randomPosY];
+    }
+    
 }
 
 // Circle function positioning and sizing
@@ -58,19 +82,27 @@ function circleFunc(timeout) {
 
 // Display circle
 
-function displayCircle(e) {
+function displayCircle() {
     if (circle.style.display == 'block') {
         circle.style.display = 'none';
     } else {
-        circle.style.display = 'block'
+        circle.style.display = 'block';
     }
+}
+
+// end the game
+function endTheGame() {
+    freeroam.style.display = 'none';
+    reaction.style.display = 'none';
+    timer.style.display = 'none';
+    endGame.style.display = 'block';
 }
 
 /************ FREEROAM GAMEMODE START *************/
 
 
 function freeroamStart() {
-    introtext.innerHTML = 'You are about to start the FREEROAM gamemode. You have unlimited time and will be able to select the speed of the circle and if the circle moves on a timer or on a click. <br> <select id="speedSelect"> <option value="500" id="500">0.5 sec</option> <option value="750" id="750">0.75 sec</option> <option value="1000" id="1000">1 sec</option> <option value="1250" id="1250"> 1.25 sec</option> <option value="1500" id="1500"> 1.5 sec</option> <option value="1750" id="1750"> 1.75 sec</option> <option value="2000" id="2000"> 2 sec</option></select> <select name="manualorauto" id="manualorauto"><option value="1">Timer</option><option value="2">On click</option></select><br> <button id="startFreeroam">START</button>';
+    gamemodeInfo.innerHTML = 'You are about to start the FREEROAM gamemode. You have unlimited time and will be able to select the speed of the circle and if the circle moves on a timer or on a click. <br> <select id="speedSelect"> <option value="500" id="500">0.5 sec</option> <option value="750" id="750">0.75 sec</option> <option value="1000" id="1000">1 sec</option> <option value="1250" id="1250"> 1.25 sec</option> <option value="1500" id="1500"> 1.5 sec</option> <option value="1750" id="1750"> 1.75 sec</option> <option value="2000" id="2000"> 2 sec</option></select> <select name="manualorauto" id="manualorauto"><option value="1">Timer</option><option value="2">On click</option></select><br> <button id="startFreeroam">START</button>';
 }
 
 // On FREEROAM gamemode button click
@@ -79,14 +111,21 @@ freeroam.addEventListener("click", function () {
     // Give info, choices and start button
     freeroamStart();
 
+    score.innerHTML = '';
+
+
     // START button
     const start = document.getElementById('startFreeroam');
 
     // On START click do these
     start.addEventListener("click", function () {
 
+        // End Game
+        endTheGame();
+
         // Display circle
         displayCircle();
+
 
         // Get user choices
         const speedSelect = document.getElementById("speedSelect");
@@ -103,18 +142,20 @@ freeroam.addEventListener("click", function () {
         }
 
         // Remove intro text
-        introtext.innerText = '';
+        gamemodeInfo.innerText = '';
 
         // add to score
 
         function addScore() {
             scoreCount++;
-            score.innerHTML = scoreCount;
+            score.innerHTML = 'Score: ' + scoreCount;
         };
 
 
         circle.addEventListener("click", addScore);
+
     });
+
 });
 
 
@@ -130,7 +171,7 @@ function reactionCircle() {
 // Set intro text
 
 function reactionStart() {
-    introtext.innerHTML = 'You are about to start the REACTION gamemode, which will test your cursor precision and mouse tracking skills. In 30 successful clicks, your average reaction time will be drawn. <br> <button id="startReaction">START</button>';
+    gamemodeInfo.innerHTML = 'You are about to start the REACTION gamemode, which will test your cursor precision and mouse tracking skills. In 30 successful clicks, your average reaction time will be drawn. <br> <button id="startReaction">START</button>';
 }
 
 // When clicking the gamemode REACTION button
@@ -147,11 +188,14 @@ reaction.addEventListener("click", function () {
     // Start this when START button is pressed
     startSpeed.addEventListener("click", function () {
 
+        // End Game
+        endTheGame();
+
         // Display circle
         displayCircle();
 
         // Remove intro text
-        introtext.innerHTML = '';
+        gamemodeInfo.innerHTML = '';
 
         // Get the circle for the reaction gamemode
 
@@ -171,20 +215,19 @@ reaction.addEventListener("click", function () {
                     return a + b;
                 });
                 let avg = sum / reactionArr.length;
-                console.log('reactionTime: ' + reactionTime);
-                console.log('average: ' + avg);
+                if (reactionArr.length == 5) {
+                    gamemodeInfo.innerHTML = 'Game over. <br> Your average reaction time is: ' + avg.toFixed(3);
+                    // Hide circle
+                    displayCircle();
+                }
             }
-            introtext.innerHTML = 'Last reaction speed:' + reactionTime;
+            score.innerHTML = 'Last reaction speed:' + reactionTime;
+            if (reactionArr.length == 5) {
+                score.innerHTML = '';
+            }
             clickedTime = 0;
             createdTime = 0;
             reactionCircle();
-
-            if (reactionArr.length == 30) {
-                introtext.innerHTML = 'Game over. Your average reaction time is: ' + reactionTime;
-
-                // Hide circle
-                displayCircle();
-            }
         });
 
         // prevent multiple clicks
@@ -199,7 +242,7 @@ reaction.addEventListener("click", function () {
 /************ TIMER GAMEMODE START *************/
 
 function timerStart() {
-    introtext.innerHTML = 'You are about to start the TIMER gamemode. You have 30 seconds to get as many points as you can. <br> <button id="startTimer">START</button>';
+    gamemodeInfo.innerHTML = 'You are about to start the TIMER gamemode. You have 30 seconds to get as many points as you can. <br> <button id="startTimer">START</button>';
 }
 
 timer.addEventListener("click", function timer() {
@@ -211,30 +254,41 @@ timer.addEventListener("click", function timer() {
 
     startTimer.addEventListener("click", function () {
 
+        // End Game
+        endTheGame();
+
         // Display circle
         displayCircle();
 
-        // Set introtext to empty
-        introtext.innerHTML = '';
+        // Set gamemodeInfo to empty
+        gamemodeInfo.innerHTML = '';
 
         // Listen for clicks overall
-        clickCount = 0;
+        clickCount = -1; // -1 because it already registers 1 click by clicking START button
 
-        document.addEventListener("click", function() {
+        document.addEventListener("click", function () {
             clickCount++;
         });
 
 
         // Start the countdown
-        let sec = 5;
+        let sec = 8;
         let timer = setInterval(function () {
             timerDisplay.innerHTML = sec;
             sec--;
 
+            if (sec == 4) {
+                timerDisplay.style.color = 'red';
+            }
+
+
             // If the countdown is over
             if (sec < 0) {
                 clearInterval(timer);
-                timerDisplay.innerHTML = 'Game over, you clicked on the circle ' + scoreCount + ' times <br> You missed ' + (clickCount-scoreCount) + ' times';
+                // Clear the counter html
+                timerDisplay.innerHTML = '';
+                // results
+                gamemodeInfo.innerHTML = 'Game over, you clicked on the circle ' + scoreCount + ' times <br> You missed ' + (clickCount - scoreCount) + ' times';
                 // Hide circle
                 displayCircle();
             }
@@ -246,11 +300,8 @@ timer.addEventListener("click", function timer() {
 
         // add to score
 
-        function addScore() {
+        circle.addEventListener("click", function () {
             scoreCount++;
-            score.innerHTML = scoreCount;
-        };
-
-        circle.addEventListener("click", addScore);
+        });
     });
 });

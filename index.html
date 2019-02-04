@@ -7,27 +7,33 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mouse accuracy game</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
-            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+        crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,500,700" rel="stylesheet">
 </head>
 
 <body>
     <div class="gamemode">
+        <div class="scoredisplay">
+            <h1><span id="score"></span></h1>
+        </div>
+        <button onClick="window.location.reload()" id="endGame">End Game</button>
         <button id="freeroam">Freeroam</button>
         <button id="reaction">Reaction</button>
         <button id="timer">Timer</button>
     </div>
-    <div id="circle">
-        <div class="ringring"></div>
+    <div class="circlebox">
+        <p id="TimeDisplay"></p>
+        <div class="gamemodeinfo">
+        </div>
+        <div id="circle">
+            <div class="ringring"></div>
+        </div>
     </div>
-    <div class="scoredisplay"><h1>Score: <span id="score">0</span></h1></div>
-    <div id="introtext"></div>
-    <div id="TimeDisplay"></div>
+    <p id="TimeDisplay"></p>
 
 
-<script src="js/script.js"></script>
+    <script src="js/script.js"></script>
 </body>
 
 </html>
