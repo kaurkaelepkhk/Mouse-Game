@@ -33,24 +33,24 @@ function calculateSize() {
     return randomSize;
 }
 
-// Calculate X and Y axis of the circle (max - min) + min
+// Calculate X and Y axis of the circle (max(this tells it how far right it can go) - min(this tells it how far left it can go)) + min
 
 function calculatePos() {
-    if (extraSmallScreens.matches) {
-        const randomPosX = Math.floor(Math.random() * (576 - 320)) + 320;
-        const randomPosY = Math.floor(Math.random() * (576 - 320)) + 320;
-        return [randomPosX, randomPosY];
-    } else if (smallScreens.matches) {
-        const randomPosX = Math.floor(Math.random() * (768 - 576)) + 576;
-        const randomPosY = Math.floor(Math.random() * (768 - 576)) + 576;
+    if (largeScreens.matches) {
+        const randomPosX = Math.floor(Math.random() * (1150 - 100)) + 100;
+        const randomPosY = Math.floor(Math.random() * (476 - 100)) + 100;
         return [randomPosX, randomPosY];
     } else if (mediumScreens.matches) {
-        const randomPosX = Math.floor(Math.random() * (992 - 768)) + 768;
-        const randomPosY = Math.floor(Math.random() * (992 - 768)) + 768;
+        const randomPosX = Math.floor(Math.random() * (900 - 100)) + 100;
+        const randomPosY = Math.floor(Math.random() * (800 - 100)) + 100;
+        return [randomPosX, randomPosY];
+    } else if (smallScreens.matches) {
+        const randomPosX = Math.floor(Math.random() * (650 - 75)) + 75;
+        const randomPosY = Math.floor(Math.random() * (500 - 75)) + 75;
         return [randomPosX, randomPosY];
     } else {
-        const randomPosX = Math.floor(Math.random() * (1200 - 992)) + 992;
-        const randomPosY = Math.floor(Math.random() * (1200 - 992)) + 992;
+        const randomPosX = Math.floor(Math.random() * (250 - 50)) + 50;
+        const randomPosY = Math.floor(Math.random() * (100 - 350)) + 350;
         return [randomPosX, randomPosY];
     }
     
