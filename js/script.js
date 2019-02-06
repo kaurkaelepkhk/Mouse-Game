@@ -2,7 +2,6 @@ const circle = document.querySelector('#circle');
 const ring = document.querySelector('.ringring');
 const score = document.querySelector('#score');
 const gamemodeInfo = document.querySelector('.gamemodeinfo');
-const gamemode = document.querySelector('.gamemode');
 const freeroam = document.querySelector('#freeroam');
 const reaction = document.querySelector('#reaction');
 const timer = document.querySelector('#timer');
@@ -14,7 +13,7 @@ let scoreCount = 0;
 const largeScreens = window.matchMedia("(min-width: 1200px)");
 const mediumScreens = window.matchMedia("(min-width: 992px)");
 const smallScreens = window.matchMedia("(min-width: 768px)");
-const extraSmallScreens = window.matchMedia("(min-width: 576px)");
+// const extraSmallScreens = window.matchMedia("(min-width: 576px)");
 
 //
 /*
@@ -102,7 +101,7 @@ function endTheGame() {
 
 
 function freeroamStart() {
-    gamemodeInfo.innerHTML = 'You are about to start the FREEROAM gamemode. You have unlimited time and will be able to select the speed of the circle and if the circle moves on a timer or on a click. <br> <select id="speedSelect"> <option value="500" id="500">0.5 sec</option> <option value="750" id="750">0.75 sec</option> <option value="1000" id="1000">1 sec</option> <option value="1250" id="1250"> 1.25 sec</option> <option value="1500" id="1500"> 1.5 sec</option> <option value="1750" id="1750"> 1.75 sec</option> <option value="2000" id="2000"> 2 sec</option></select> <select name="manualorauto" id="manualorauto"><option value="1">Timer</option><option value="2">On click</option></select><br> <button id="startFreeroam">START</button>';
+    gamemodeInfo.innerHTML = 'You are about to start the FREEROAM gamemode. You have unlimited time and will be able to select the speed of the circle and if the circle moves on a timer or on a click. <br> <select name="manualorauto" id="manualorauto"><option value="1">Timer</option><option value="2">On click</option></select><select id="speedSelect"> <option value="500" id="500">0.5 sec</option> <option value="750" id="750">0.75 sec</option> <option value="1000" id="1000">1 sec</option> <option value="1250" id="1250"> 1.25 sec</option> <option value="1500" id="1500"> 1.5 sec</option> <option value="1750" id="1750"> 1.75 sec</option> <option value="2000" id="2000"> 2 sec</option></select><button id="startFreeroam">START</button>';
 }
 
 // On FREEROAM gamemode button click
@@ -141,6 +140,7 @@ freeroam.addEventListener("click", function () {
             circle.addEventListener("click", circleElems);
         }
 
+
         // Remove intro text
         gamemodeInfo.innerText = '';
 
@@ -149,7 +149,7 @@ freeroam.addEventListener("click", function () {
         function addScore() {
             scoreCount++;
             score.innerHTML = 'Score: ' + scoreCount;
-        };
+        }
 
 
         circle.addEventListener("click", addScore);
@@ -215,14 +215,14 @@ reaction.addEventListener("click", function () {
                     return a + b;
                 });
                 let avg = sum / reactionArr.length;
-                if (reactionArr.length == 5) {
+                if (reactionArr.length == 30) {
                     gamemodeInfo.innerHTML = 'Game over. <br> Your average reaction time is: ' + avg.toFixed(3);
                     // Hide circle
                     displayCircle();
                 }
             }
             score.innerHTML = 'Last reaction speed:' + reactionTime;
-            if (reactionArr.length == 5) {
+            if (reactionArr.length == 30) {
                 score.innerHTML = '';
             }
             clickedTime = 0;
@@ -272,7 +272,7 @@ timer.addEventListener("click", function timer() {
 
 
         // Start the countdown
-        let sec = 8;
+        let sec = 30;
         let timer = setInterval(function () {
             timerDisplay.innerHTML = sec;
             sec--;
@@ -296,7 +296,7 @@ timer.addEventListener("click", function timer() {
 
         // Call the circle function
 
-        circleFunc(450);
+        circleFunc(700);
 
         // add to score
 
